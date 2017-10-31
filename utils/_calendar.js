@@ -1,4 +1,4 @@
-// utils/_calendar.js
+// Utilities for backfilling the calendar.
 
 import { AsyncStorage } from 'react-native'
 import { getMetricMetaInfo, timeToString } from './helpers'
