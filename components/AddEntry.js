@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View, TouchableOpacity, Text } from 'react-native'
+import { View, TouchableOpacity, Text, StyleSheet, Platform } from 'react-native'
 import { getMetricMetaInfo, timeToString, getDailyReminderValue } from '../utils/helpers'
 import UdaciSlider from './UdaciSlider'
 import UdaciSteppers from './UdaciSteppers'
@@ -9,14 +9,16 @@ import TextButton from './TextButton'
 import { submitEntry, removeEntry } from "../utils/api";
 import { addEntry } from "../actions/index";
 import { connect } from 'react-redux'
+import { white, purple } from '../utils/colors'
 
 
 
 function SubmitBtn ({ onPress }) {
     return (
         <TouchableOpacity
+            style={Platform.os === 'ios' ? styles.iosSubmitBtn : styles.androidSubmitBtn }
             onPress={onPress}>
-            <Text>SUBMIT</Text>
+            <Text style={styles.submitBtnText}>SUBMIT</Text>
         </TouchableOpacity>
     )
 }
@@ -92,9 +94,9 @@ class AddEntry extends Component {
     render() {
         if (this.props.alreadyLogged) {
             return (
-                <View>
+                <View style={styles.center}>
                     <Ionicons
-                        name={'ios-happy-outline'}
+                        name={Platform.os === 'ios' ? 'ios-happy-outline' : 'md-happy'}
                         size={100}
                     />
                     <Text>You already logged your information for today.</Text>
@@ -108,19 +110,14 @@ class AddEntry extends Component {
         const metaInfo = getMetricMetaInfo()
 
         return (
-            <View>
+            <View style={styles.container}>
                 {/*<DateHeader date={(new Date()).toLocaleDateString()}/> bugg*/}
-                <View>
-                    <Text>
-                        {JSON.stringify(this.state)}
-                    </Text>
-                </View>
                 {Object.keys(metaInfo).map((key) => {
                     const { getIcon, type, ...rest } = metaInfo[key]
                     const value = this.state[key]
 
                     return (
-                        <View key={key}>
+                        <View style={styles.row} key={key}>
                             {getIcon()}
                             {type === 'slider'
                                 ? <UdaciSlider
@@ -145,11 +142,53 @@ class AddEntry extends Component {
 
 const mapStateToProps = state => {
     const key = timeToString()
-    console.log('alreadyLogged', state[key] && state[key].today === 'undefined')
-    console.log(state)
     return {
         alreadyLogged: state[key] && typeof state[key].today === 'undefined'
     }
 }
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        padding: 20,
+        backgroundColor: white
+    },
+    row: {
+        flexDirection: 'row',
+        flex: 1,
+        alignItems: 'center'
+    },
+    iosSubmitBtn: {
+        backgroundColor: purple,
+        padding: 10,
+        borderRadius: 7,
+        height: 45,
+        marginLeft: 40,
+        marginRight: 40
+    },
+    androidSubmitBtn: {
+        backgroundColor: purple,
+        padding: 10,
+        paddingLeft: 30,
+        paddingRight: 30,
+        height: 45,
+        borderRadius: 2,
+        alignSelf: 'flex-end',
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+    submitBtnText: {
+        color: white,
+        fontSize: 22,
+        textAlign: 'center'
+    },
+    center: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginLeft: 30,
+        marginRight: 30
+    }
+})
 
 export default connect(mapStateToProps)(AddEntry)
