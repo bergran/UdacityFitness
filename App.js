@@ -10,6 +10,8 @@ import { white, purple } from './utils/colors';
 import { FontAwesome, Ionicons } from '@expo/vector-icons'
 import { Constants } from 'expo'
 import EntryDetail from './components/EntryDetail'
+import Live from './components/Live'
+import { setLocalNotification } from "./utils/helpers";
 
 const Tabs = TabNavigator({
     History: {
@@ -26,6 +28,13 @@ const Tabs = TabNavigator({
             tabBarIcon: ({ tintColor }) => <FontAwesome name='plus-square' size={30} color={tintColor} />
         },
     },
+    Live: {
+        screen: Live,
+        navigationOptions: {
+            tabBarLabel: 'Live',
+            tabBarIcon: ({ tintColor }) => <Ionicons name='ios-speedometer' size={30} color={tintColor} />
+        }
+    }
 }, {
     navigationOptions: {
         header: null
@@ -66,10 +75,13 @@ const MainNavigator = StackNavigator({
                 backgroundColor: purple,
             }
         }
-    }
+    },
 })
 
 export default class App extends React.Component {
+    componentDidMount () {
+        setLocalNotification()
+    }
 
     render() {
         return (
