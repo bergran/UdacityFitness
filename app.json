@@ -1,5 +1,25 @@
 {
   "expo": {
-    "sdkVersion": "22.0.0"
+    "sdkVersion": "22.0.0",
+    "orientation": "portrait",
+    "name": "UdaciFitness",
+    "description": "The best triathlon tracker ever",
+    "slug": "udacfitness",
+    "version": "1.0",
+    "icon": "https://tylermcginnis.com/udacifitness-512.png",
+    "notification": {
+      "icon": "https://tylermcginnis.com/udacifitness-45.png"
+    },
+    "ios": {
+      "bundleIdentifier": "org.udacifitness.exp"
+    },
+    "android": {
+      "package": "org.udacifitness.exp"
+    },
+    "loading": {
+      "icon": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c0/WikiProject_Brazil_tasks_icon.svg/128px-WikiProject_Brazil_tasks_icon.svg.png",
+      "backgroundColor": "#292477",
+      "hideExponentText": true
+    }
   }
 }
